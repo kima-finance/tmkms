@@ -51,7 +51,9 @@ jobs:
         run: cargo build --features=softsign,fortanixdsm --release
 
       - name: Build debian package
-        run: cargo deb
+        run: |
+          cargo install cargo-deb
+          cargo deb
 
   test:
     name: Test Suite
