@@ -59,5 +59,4 @@ jobs:
 
       - name: Upload to google artifact registry
         run: |
-          find . -name "*.deb"
-          gcloud artifacts apt upload tmkms --location=us-central1 --source=tmkms/tmkms/target/debian/tmkms_0.14.0-1_amd64.deb
+          gcloud artifacts apt upload tmkms --location=us-central1 --source=./target/debian/tmkms_0.14.0-1_amd64.deb
