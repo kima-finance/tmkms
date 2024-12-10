@@ -37,6 +37,11 @@ jobs:
           path: target
           key: ${{ runner.os }}-rust-${{ matrix.toolchain }}-cargo-build-target-${{ hashFiles('Cargo.lock') }}
 
+      - name: Log in to google cloud
+        uses: 'google-github-actions/auth@v2'
+        with:
+          credentials_json: '${{ secrets.GOOGLE_CLOUD_CREDENTIALS }}' # Replace with the name of your GitHub Actions secret
+
       - name: Install toolchain
         uses: actions-rs/toolchain@v1
         with:
@@ -51,3 +56,6 @@ jobs:
           cargo install cargo-deb
           cargo build --features=softsign,fortanixdsm --release
           cargo deb --profile release -- --features fortanixdsm,softsign
+
+      - name: Upload to google artifact registry
+        run: gcloud artifacts apt upload tmkms --location=us-central1 --source=tmkms/target/debian/tmkms_0.14.0-1_amd64.deb
